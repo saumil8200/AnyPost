@@ -1,0 +1,31 @@
+{% extends 'main.html' %} 
+
+{% block content %}
+
+<div class="mt-12">
+    <div>
+        <input class="w-full bg-white border-none mb-5 p-3" name="search" placeholder="Search..." type="search" />
+    </div>
+    {% for post in posts %}
+        
+        <a href="{% url 'post' post.id %}">
+            <div class="mb-3 bg-white p-8">
+                <div class="mb-3">
+                    <span class="text-sm font-light">{{ post.created|timesince }} ago in </span>
+                    <span class="font-bold">p/{{ post.category|lower }}</span> by
+                    <span class="font-bold">u/{{ post.owner.username }}</span>
+                </div>
+                <div class="text-xl font-black mb-2">{{ post.title|title }}</div>
+                <div class="font-regular">{{ post.description|truncatewords:100|linebreaks|urlize }}</div>
+                <div>
+                    {% if post.featured_image %}
+                        <img class="object-cover w-40 h-auto" src="{{ post.featured_image.url }}">
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+
+    {% endfor %}
+</div>
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends 'main.html' %} 
+
+{% block content %}
+
+<div class="mt-12">
+    <div class="mb-3 bg-white p-8">
+        <div class="mb-3">
+            <span class="text-sm font-light">{{ post.created|timesince }} ago in </span>
+            <span class="font-bold">p/{{ post.category|lower }}</span> by
+            <span class="font-bold">u/{{ post.owner.username }}</span>
+        </div>
+        <div class="text-xl font-black mb-2">{{ post.title|title }}</div>
+        <div class="font-regular">{{ post.description|linebreaks|urlize }}</div>
+        <div>
+            {% if post.featured_image %}
+                <img class="object-cover w-40 h-auto" src="{{ post.featured_image.url }}">
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-6 bg-white p-8">
+        <h2 class="text-lg font-bold mb-4">Comments</h2>
+        
+        <!-- Comment form for new comment without a parent -->
+        {% if user.is_authenticated %}
+            <form method="post" class="mb-4">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit" class="text-sm mt-2 bg-black text-white p-2">Add Comment</button>
+            </form>
+        {% endif %}
+
+        <!-- Render comments -->
+        {% for comment in comments %}
+            {% include 'posts/comment.html' with comment=comment %}
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock content %}

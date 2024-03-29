@@ -1,0 +1,35 @@
+<!-- comment.html -->
+<div class="border-l border-gray-200 rounded p-4">
+    <!-- Display comment content -->
+    <div class="text-xs font-light">{{ comment.created|timesince }} ago</div>
+    <div><strong>{{ comment.user }}: </strong>{{ comment.content }}</div>
+
+    <!-- Reply button (visible to logged-in users) -->
+    {% if user.is_authenticated %}
+    <div class="mt-1"> 
+        <i class="fa fa-reply text-sm" aria-hidden="true"></i>
+        <button class="text-sm" type="button" onclick="document.getElementById('replyForm{{ comment.id }}').classList.toggle('hidden')">Reply</button>
+    </div>
+    {% endif %}
+
+    <!-- Reply form (initially hidden) -->
+    <div id="replyForm{{ comment.id }}" class="hidden mt-4">
+        {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+            <button type="submit" class="text-sm bg-black text-white p-2">Post Reply</button>
+        </form>
+        {% else %}
+        <p>Please <a href="{% url 'login' %}">login</a> to reply.</p>
+        {% endif %}
+    </div>
+
+    <!-- Render replies recursively -->
+    {% if comment.replies.count > 0 %}
+        {% for reply in comment.replies.all %}
+            {% include 'posts/comment.html' with comment=reply %}
+        {% endfor %}
+    {% endif %}
+</div>

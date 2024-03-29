@@ -1,0 +1,119 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Post, Category, Comment
+from .forms import PostForm, CommentForm
+
+# Create your views here.
+
+def posts(request):
+    posts = Post.objects.all()
+    context = {
+        "posts": posts
+    }
+    return render(request, "posts/posts.html", context)
+
+# def post(request, pk):
+#     postObj = Post.objects.get(id=pk)
+#     context = {
+#         'post': postObj
+#     }
+#     return render(request, 'posts/post.html', context)
+
+def post(request, pk):
+    post_obj = Post.objects.get(id=pk)
+    comments = post_obj.comments.filter(parent=None)
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.user = request.user.profile
+            comment.post = post_obj
+            parent_id = comment_form.cleaned_data.get('parent_id')
+            if parent_id:
+                parent_comment = Comment.objects.get(id=parent_id)
+                comment.parent = parent_comment
+            comment.save()
+            return redirect('post', pk=pk)
+    else:
+        comment_form = CommentForm()
+
+    context = {
+        'post': post_obj,
+        'comments': comments,
+        'comment_form': comment_form,
+    }
+    return render(request, 'posts/post.html', context)
+
+def categories(request):
+    categories = Category.objects.all()
+    context = {
+        'categories': categories
+    }
+    return render(request, 'posts/categories.html', context)
+
+def category(request, pk):
+    page = 'category'
+    category = Category.objects.get(id=pk)
+    posts = Post.objects.filter(category=category)
+    context = {
+        'posts': posts,
+        'category': category,
+        'page': page
+    }
+    return render(request, 'posts/posts.html', context)
+
+@login_required(login_url="login")
+def createPost(request):
+    profile = request.user.profile
+    form = PostForm()
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            # profile = Profile.objects.get(user=request.user)
+            post = form.save(commit=False)
+            post.owner = profile
+            post.save()
+            return redirect('posts')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'posts/post_form.html', context)
+
+@login_required(login_url="login")
+def updatePost(request, pk):
+    profile = request.user.profile
+    post = profile.post_set.get(id=pk)
+
+    form = PostForm(instance=post)
+
+    if request.method == 'POST':
+        # print(request.POST)
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('posts')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'posts/post_form.html', context)
+
+@login_required(login_url="login")
+def deletePost(request, pk):
+    profile = request.user.profile
+    post = profile.post_set.get(id=pk)
+
+    if request.user != post.owner.user:
+        return redirect('permission_denied')
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('posts')
+
+    context = {
+        'object': post
+    }
+    return render(request, 'posts/delete_template.html', context)

@@ -1,0 +1,60 @@
+<nav class="bg-black text-[#FFFFFF]">
+    <div class="py-4 lg:px-8 px-4 max-w-[1280px] h-16 m-auto flex items-center justify-between">
+        <div>
+            <h1 class="lg:text-2xl text-xl uppercase tracking-wider cursor-pointer font-black">
+                <a href="{% url 'posts' %}">Any Post</a>
+            </h1>
+        </div>
+        <div class="flex lg:gap-8 gap-6 uppercase text-sm tracking-wider cursor-pointer items-center" id="navItems">
+            <span class="group">
+                <a href="{% url 'posts' %}">Home</a>
+            </span>
+            <span class="group">
+                <a href="{% url 'categories' %}">Postgroups</a>
+            </span>
+            {% if request.user.is_authenticated %}
+                <span class="group">
+                    <a href="{% url 'create-post' %}">Create Post</a>
+                </span>
+                <span class="group">
+                    <a href="{% url 'account' %}">{{ request.user.username }}</a>
+                </span>
+                <span class="group">
+                    <a href="{% url 'logout' %}">Logout</a>
+                </span>
+            {% else %}
+            <span class="group">
+                <a href="{% url 'login' %}">Login</a>
+            </span>
+            <span class="group">
+                <a href="{% url 'register' %}">Sign Up</a>
+            </span>
+            {% endif %}
+        </div>
+        <div id="hamburger" class="fa fa-bars flex items-center text-xl" style="display:none;"></div>
+        <div id="mobileNav"
+            class="fixed flex flex-col gap-8 pt-16 px-4 uppercase bg-black text-white h-full inset-0 top-16 w-[70%] left-[-70%] ease-in-out duration-500 cursor-pointer">
+            <span class="group">
+                <a href="{% url 'posts' %}">Home</a>
+            </span>
+            <span class="group">
+                <a href="{% url 'categories' %}">Postgroups</a>
+            </span>
+            {% if request.user.is_authenticated %}
+                <span class="group">
+                    <a href="{% url 'account' %}">{{ request.user.username }}</a>
+                </span>
+                <span class="group">
+                    <a href="{% url 'logout' %}">Logout</a>
+                </span>
+            {% else %}
+                <span class="group">
+                    <a href="{% url 'login' %}">Login</a>
+                </span>
+                <span class="group">
+                    <a href="{% url 'register' %}">Sign Up</a>
+                </span>
+            {% endif %}
+        </div>
+    </div>
+</nav>

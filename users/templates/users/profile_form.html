@@ -1,0 +1,22 @@
+{% extends 'main.html' %} 
+{% block content %}
+
+    <div class="max-w-4xl mx-auto mt-12">
+        <div class="text-3xl grid place-content-start pl-8 p-3 bg-black text-white font-black">Edit Profile</div>
+        <div class="bg-white p-8">
+            <form method="POST" action="{% url 'edit-account' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <div class="mb-2 font-medium">
+                            {{ field.label }}
+                        </div>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <input class="w-full text-sm bg-black text-white p-2" type="submit" value="Submit" />
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}
