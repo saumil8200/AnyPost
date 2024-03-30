@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Post, Category, Comment
+from .utils import searchPosts, searchCategories
 from .forms import PostForm, CommentForm
 
 # Create your views here.
 
 def posts(request):
-    posts = Post.objects.all()
+    posts, search = searchPosts(request)
+    # posts = Post.objects.all()
     context = {
-        "posts": posts
+        "posts": posts,
+        "search": search,
     }
     return render(request, "posts/posts.html", context)
 
@@ -46,7 +49,8 @@ def post(request, pk):
     return render(request, 'posts/post.html', context)
 
 def categories(request):
-    categories = Category.objects.all()
+    categories, search = searchCategories(request)
+    # categories = Category.objects.all()
     context = {
         'categories': categories
     }

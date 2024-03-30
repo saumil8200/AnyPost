@@ -3,9 +3,14 @@
 {% block content %}
 
 <div class="mt-5">
-    <div>
-        <input class="w-full bg-white border-none mb-5 p-3" name="search" placeholder="Search..." type="search" />
-    </div>
+    <form action="{% url 'categories' %}" method="get">
+        <div class="flex">
+            <input class="w-full bg-white border-none mb-5 p-3" name="search" value="{{ search}}" placeholder="Search..." type="search" />
+            <div>
+                <input class="bg-black text-white p-3" type="submit"  value="Search"/>
+            </div>
+        </div>
+    </form>
     {% for category in categories %}
 
         <a href="{% url 'category' category.id %}">
