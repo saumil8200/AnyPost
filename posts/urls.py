@@ -10,6 +10,8 @@ urlpatterns = [
     path('delete-post/<str:pk>', views.deletePost, name = "delete-post"),
 
     path('create-category/', views.createCategory, name = "create-category"),
+    path('update-category/<str:pk>', views.updateCategory, name = "update-category"),
+    path('delete-category/<str:pk>', views.deleteCategory, name = "delete-category"),
 
     path('categories/', views.categories, name = "categories"),
     path('category/<str:pk>', views.category, name = "category"),

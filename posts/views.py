@@ -140,3 +140,39 @@ def createCategory(request):
         'form': form
     }
     return render(request, 'posts/category_form.html', context)
+
+@login_required(login_url="login")
+def updateCategory(request, pk):
+    profile = request.user.profile
+    category = profile.category_set.get(id=pk)
+
+    form = CategoryForm(instance=category)
+
+    if request.method == 'POST':
+        # print(request.POST)
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('categories')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'posts/category_form.html', context)
+
+@login_required(login_url="login")
+def deleteCategory(request, pk):
+    profile = request.user.profile
+    category = profile.category_set.get(id=pk)
+
+    if request.user != category.owner.user:
+        return redirect('permission_denied')
+
+    if request.method == 'POST':
+        category.delete()
+        return redirect('categories')
+
+    context = {
+        'object': category
+    }
+    return render(request, 'posts/delete_template.html', context)

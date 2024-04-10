@@ -62,13 +62,25 @@
             <div>
                 {% for category in profile.category_set.all %}
                     <a href="{% url 'category' category.id %}">
-                        <div class="bg-white mb-3 p-5">
+                        <div class="bg-white p-5">
                             <div class="mb-3">
                                 <div class="text-xl font-bold">{{ category.name }}</div>
                             </div>
                             <p class="text-sm font-light">{{ category.description }}</p>
                         </div>
                     </a>
+                    <div class="grid grid-cols-2 mb-5">
+                        <div>
+                            <a href="{% url 'update-category' category.id %}">
+                                <button class="w-full text-sm bg-black text-white p-2">EDIT</button>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="{% url 'delete-category' category.id %}">
+                                <button class="w-full text-sm bg-red-600 text-white p-2">DELETE</button>
+                            </a>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
         </div>
