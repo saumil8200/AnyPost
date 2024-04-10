@@ -9,6 +9,8 @@ urlpatterns = [
     path('update-post/<str:pk>', views.updatePost, name = "update-post"),
     path('delete-post/<str:pk>', views.deletePost, name = "delete-post"),
 
+    path('create-category/', views.createCategory, name = "create-category"),
+
     path('categories/', views.categories, name = "categories"),
     path('category/<str:pk>', views.category, name = "category"),
 ]

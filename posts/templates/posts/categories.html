@@ -1,7 +1,6 @@
 {% extends 'main.html' %} 
 
 {% block content %}
-
 <div class="mt-5">
     <form action="{% url 'categories' %}" method="get">
         <div class="flex">
@@ -11,6 +10,16 @@
             </div>
         </div>
     </form>
+    <a href="{% url 'create-category' %}">
+        <div class="bg-black flex justify-between text-white my-3 p-3 font-bold">
+            <div>
+                Create Postgroup
+            </div>
+            <div>
+                +
+            </div>
+        </div>
+    </a>
     {% for category in categories %}
 
         <a href="{% url 'category' category.id %}">

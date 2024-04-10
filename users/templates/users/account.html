@@ -24,7 +24,7 @@
                 {{ profile.bio }}
             </div>
         </div>
-        <div class="text-3xl bg-black text-white p-3 font-black">Your Posts</div>
+        <div class="text-3xl bg-black text-white p-3 mt-12 font-black">Your Posts</div>
         <div>
             {% for post in profile.post_set.all %}
                 <a href="{% url 'post' post.id %}">
@@ -57,12 +57,21 @@
                 </div>
             {% endfor %}
         </div>
-        <!-- <div>
-            <div class="text-3xl font-black mb-5">Your Categories</div>
-            {% for category in profile.category_set.all %}
-                <div>{{ category.name }}</div>
-            {% endfor %}
-        </div> -->
+        <div>
+            <div class="text-3xl bg-black text-white p-3 mt-12 font-black">Your Postgroups</div>
+            <div>
+                {% for category in profile.category_set.all %}
+                    <a href="{% url 'category' category.id %}">
+                        <div class="bg-white mb-3 p-5">
+                            <div class="mb-3">
+                                <div class="text-xl font-bold">{{ category.name }}</div>
+                            </div>
+                            <p class="text-sm font-light">{{ category.description }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
 {% endblock content %}

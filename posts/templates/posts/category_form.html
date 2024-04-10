@@ -1,0 +1,22 @@
+{% extends 'main.html' %} 
+
+{% block content %}
+
+    <div class="mx-auto mt-8">
+        <div class="text-3xl grid place-content-start pl-8 p-3 bg-black text-white font-black">Create Category</div>
+        <div class="bg-white p-8">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+        
+                {% for field in form %}
+                    <div class="mb-3">
+                        {{ field }}
+                    </div>
+                {% endfor %}
+        
+                <input class="w-full text-sm bg-black text-white p-2" type="submit" />
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

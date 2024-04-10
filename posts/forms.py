@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Textarea, ClearableFileInput
 from django import forms
-from .models import Post, Comment
+from .models import Post, Comment, Category
 
 class PostForm(ModelForm):
     class Meta:
@@ -32,6 +32,26 @@ class PostForm(ModelForm):
 
         # Set a default placeholder or initial value for the category field
         self.fields['category'].empty_label = 'Select postgroup'
+
+class CategoryForm(ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description',]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['name'].widget.attrs.update({
+            'class': 'w-full bg-[#F5F5F5] p-3',
+            'placeholder': 'Enter category name'
+        })
+
+        # Set the Textarea widget for the description field and adjust its attributes
+        self.fields['description'].widget = Textarea(attrs={
+            'class': 'w-full bg-[#F5F5F5] p-3',
+            'placeholder': 'Enter description',
+            'rows': 2  # Number of visible rows
+        })
 
 class CommentForm(forms.ModelForm):
     parent_id = forms.UUIDField(widget=forms.HiddenInput, required=False)

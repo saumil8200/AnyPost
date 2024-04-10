@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Post, Category, Comment
 from .utils import searchPosts, searchCategories
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, CategoryForm
 
 # Create your views here.
 
@@ -121,3 +121,22 @@ def deletePost(request, pk):
         'object': post
     }
     return render(request, 'posts/delete_template.html', context)
+
+@login_required(login_url="login")
+def createCategory(request):
+    profile = request.user.profile
+    form = CategoryForm()
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            # profile = Profile.objects.get(user=request.user)
+            category = form.save(commit=False)
+            category.owner = profile
+            category.save()
+            return redirect('categories')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'posts/category_form.html', context)
