@@ -10,6 +10,8 @@ class Post(models.Model):
     description = models.TextField(null=True, blank=True)
     category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.SET_NULL)
     featured_image = models.ImageField(null=True, blank=True)
+    likes = models.IntegerField(default=0, null=True, blank=True,)
+    liked_by = models.ManyToManyField(Profile, related_name='liked_posts')
     # tags = models.ManyToManyField('Tag', blank=True)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)

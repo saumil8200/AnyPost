@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Post, Category, Comment
+from django.contrib import messages
 from .utils import searchPosts, searchCategories
 from .forms import PostForm, CommentForm, CategoryForm
 
@@ -176,3 +177,24 @@ def deleteCategory(request, pk):
         'object': category
     }
     return render(request, 'posts/delete_template.html', context)
+
+@login_required(login_url="login")
+def like_post(request, pk):
+    post = Post.objects.get(id=pk)
+    post.liked_by.add(request.user.profile)
+    post.likes += 1
+    post.save()
+    return redirect('post', pk=pk)
+
+def like_post(request, pk):
+    post = Post.objects.get(id=pk)
+    user_profile = request.user.profile
+
+    if user_profile in post.liked_by.all():
+        messages.warning(request, 'You have already liked this post.')
+    else:
+        post.liked_by.add(user_profile)
+        post.likes += 1
+        post.save()
+        messages.success(request, 'Post liked successfully.')
+    return redirect('post', pk=pk)

@@ -27,6 +27,7 @@ class PostSerializer(serializers.ModelSerializer):
     owner = ProfileSerializer(many=False)
     category = CategorySerializer(many=False)
     comment = serializers.SerializerMethodField()
+    liked_by = ProfileSerializer(many=True)
     def get_comment(self, obj):
         comments = obj.comments.all()
         serializer = CommentSerializer(comments ,many=True)
