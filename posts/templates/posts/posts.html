@@ -22,6 +22,8 @@
                 </div>
                 <div class="text-xl font-black mb-2">{{ post.title|title }}</div>
                 <div class="font-regular">{{ post.description|truncatewords:100|linebreaks|urlize }}</div>
+                <a class="bg-black text-white" href="{% url 'like-post' post.id %}">Like</a>
+                <p>Total Likes : {{ post.likes }}</p>
                 <div>
                     {% if post.featured_image %}
                         <img class="object-cover w-40 h-auto" src="{{ post.featured_image.url }}">

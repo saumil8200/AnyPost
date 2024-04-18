@@ -9,7 +9,7 @@
             <span class="font-bold">p/{{ post.category|lower }}</span> by
             <span class="font-bold">u/{{ post.owner.username }}</span>
         </div>
-        <a href="{% url 'like-post' post.id %}">Like</a>
+        <a class="bg-black text-white" href="{% url 'like-post' post.id %}">Like</a>
         <p>Total Likes : {{ post.likes }}</p>
         <div class="px-8 py-8">
             <div class="text-xl font-black mb-2">{{ post.title|title }}</div>
