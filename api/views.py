@@ -10,8 +10,9 @@ def getRoutes(request):
 
     routes = [
         {'GET': '/api/posts'},
-        {'GET': '/api/posts/id'},
-        {'POST': '/api/posts/id/like'},
+        {'GET': '/api/post/id'},
+        {'POST': '/api/post/id/like'},
+        {'POST': '/api/post/id/dislike'},
 
         {'POST': '/api/users/token'},
         {'POST': '/api/users/token/refresh'},
