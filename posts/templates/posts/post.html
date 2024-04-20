@@ -10,6 +10,7 @@
             <span class="font-bold">u/{{ post.owner.username }}</span>
         </div>
         <a class="bg-black text-white" href="{% url 'like-post' post.id %}">Like</a>
+        <a class="bg-black text-white" href="{% url 'dislike-post' post.id %}">DisLike</a>
         <p>Total Likes : {{ post.likes }}</p>
         <div class="px-8 py-8">
             <div class="text-xl font-black mb-2">{{ post.title|title }}</div>

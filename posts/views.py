@@ -179,14 +179,7 @@ def deleteCategory(request, pk):
     return render(request, 'posts/delete_template.html', context)
 
 @login_required(login_url="login")
-def like_post(request, pk):
-    post = Post.objects.get(id=pk)
-    post.liked_by.add(request.user.profile)
-    post.likes += 1
-    post.save()
-    return redirect('post', pk=pk)
-
-def like_post(request, pk):
+def likePost(request, pk):
     post = Post.objects.get(id=pk)
     user_profile = request.user.profile
 
@@ -197,4 +190,17 @@ def like_post(request, pk):
         post.likes += 1
         post.save()
         messages.success(request, 'Post liked successfully.')
+    return redirect('post', pk=pk)
+
+def dislikePost(request, pk):
+    post = Post.objects.get(id=pk)
+    user_profile = request.user.profile
+    
+    if user_profile not in post.liked_by.all():
+        messages.warning(request, 'You have not liked this post yet.')
+    else:
+        post.liked_by.remove(user_profile)
+        post.likes -= 1
+        post.save()
+        messages.success(request, 'Post disliked successfully.')
     return redirect('post', pk=pk)

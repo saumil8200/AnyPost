@@ -8,7 +8,8 @@ urlpatterns = [
     path('create-post/', views.createPost, name = "create-post"),
     path('update-post/<str:pk>', views.updatePost, name = "update-post"),
     path('delete-post/<str:pk>', views.deletePost, name = "delete-post"),
-    path('like-post/<str:pk>/', views.like_post, name='like-post'),
+    path('like-post/<str:pk>/', views.likePost, name='like-post'),
+    path('dislike-post/<str:pk>/', views.dislikePost, name='dislike-post'),
 
     path('create-category/', views.createCategory, name = "create-category"),
     path('update-category/<str:pk>', views.updateCategory, name = "update-category"),
