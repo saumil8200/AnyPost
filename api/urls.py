@@ -15,4 +15,7 @@ urlpatterns = [
     path('post/<str:pk>', views.getPost),
     path('post/<str:pk>/like/', views.postLike),
     path('post/<str:pk>/dislike/', views.postDislike),
+
+    path('categories/', views.getCategories),
+    path('category/<str:pk>', views.getCategory),
 ]

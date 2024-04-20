@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from .serializers import PostSerializer
-from posts.models import Post
+from .serializers import PostSerializer, CategorySerializer, CategoryPostSerializer
+from posts.models import Post, Category
 
 @api_view(['GET'])
 def getRoutes(request):
@@ -30,6 +30,18 @@ def getPosts(request):
 def getPost(request, pk):
     posts = Post.objects.get(id=pk)
     serializer = PostSerializer(posts, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getCategories(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getCategory(request, pk):
+    category = Category.objects.get(id=pk)
+    serializer = CategoryPostSerializer(category, many=False)
     return Response(serializer.data)
 
 @api_view(['POST'])

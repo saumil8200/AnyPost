@@ -8,6 +8,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CategorySerializer(serializers.ModelSerializer):
+    owner = ProfileSerializer(many=False)
     class Meta:
         model = Category
         fields = '__all__'
@@ -35,4 +36,16 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
+        fields = '__all__'
+
+class CategoryPostSerializer(serializers.ModelSerializer):
+    owner = ProfileSerializer(many=False)
+    posts = serializers.SerializerMethodField()
+    def get_posts(self, obj):
+        posts = Post.objects.filter(category=obj)
+        serializer = PostSerializer(posts, many=True)
+        return serializer.data
+
+    class Meta:
+        model = Category
         fields = '__all__'
