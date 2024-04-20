@@ -14,6 +14,9 @@ def getRoutes(request):
         {'POST': '/api/post/id/like'},
         {'POST': '/api/post/id/dislike'},
 
+        {'GET': '/api/categories'},
+        {'GET': '/api/category/id'},
+
         {'POST': '/api/users/token'},
         {'POST': '/api/users/token/refresh'},
     ]
