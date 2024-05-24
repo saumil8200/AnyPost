@@ -1,7 +1,0 @@
-python 3.8.1
-django
-pillow
-whitenoise
-djangorestframework
-djangorestframework-simplejwt
-django-cors-headers
